@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Nada de dado pessoal aqui. O formulário é a única entrada de informação.
+Sitemap: /sitemap.xml

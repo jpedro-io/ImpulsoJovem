@@ -1,0 +1,5 @@
+# nada de sistema ou de build por aqui
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc

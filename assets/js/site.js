@@ -198,25 +198,35 @@
       if (retorno) retorno.removeAttribute("data-estado");
 
       var dados = new FormData(form);
+      // o envio vai para o e-mail do movimento (FormSubmit). O endereço fica no
+      // atributo data-endpoint do <form>, no HTML.
+      var destino = form.getAttribute("data-endpoint") || form.getAttribute("action");
 
-      fetch(form.getAttribute("action"), {
+      fetch(destino, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "application/json"
+        },
         body: new URLSearchParams(dados).toString()
       }).then(function (resposta) {
-        if (!resposta.ok) throw new Error("falha");
+        return resposta.json().catch(function () { return {}; });
+      }).then(function (json) {
+        // o FormSubmit responde 200 mesmo quando recusa (ex.: e-mail ainda não ativado),
+        // então o que vale é o campo success
+        if (String(json.success) !== "true") throw new Error("recusado");
         form.reset();
         if (retorno) {
           retorno.setAttribute("data-estado", "ok");
-          retorno.innerHTML = "<strong>Recebido.</strong> A gente te chama no WhatsApp em até 48 horas. Enquanto isso, o grupo está aberto.";
+          retorno.innerHTML = "<strong>Mensagem enviada.</strong> Ela chegou no e-mail do movimento e a gente responde em até 48 horas, no WhatsApp que você deixou.";
         }
         retorno.focus();
       }).catch(function () {
         if (retorno) {
           retorno.setAttribute("data-estado", "falha");
           retorno.innerHTML = demonstracao
-            ? "<strong>Formulário em demonstração.</strong> Neste endereço de teste não existe servidor pra receber o envio. Na hospedagem, este mesmo botão grava a resposta e avisa o movimento. Enquanto isso, entra no grupo do WhatsApp."
-            : "<strong>Não conseguimos enviar agora.</strong> Tenta de novo em um minuto ou entra direto no grupo do WhatsApp.";
+            ? "<strong>Formulário em demonstração.</strong> Este endereço de teste não envia e-mail. Na hospedagem, o mesmo botão entrega a resposta no e-mail do movimento."
+            : "<strong>Não conseguimos enviar agora.</strong> Tenta de novo em um minuto ou chama no Instagram: @impulsojovem.33.";
         }
         retorno.focus();
       }).finally(function () {

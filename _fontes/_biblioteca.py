@@ -116,10 +116,10 @@ corpo = f"""<main id="conteudo">
         </div>
         <div class="caixa caixa--preta">
           <p class="olho olho--vermelho">Tem um livro pra indicar?</p>
-          <p>Manda o arquivo ou o link no grupo. A gente confere, monta a ficha e põe seu nome como
-          quem indicou.</p>
+          <p>Manda o arquivo ou o link no direct do Instagram. A gente confere, monta a ficha e põe
+          seu nome como quem indicou.</p>
           <div class="acoes">
-            <a class="botao botao--mini botao--vermelho" href="{G.WHATSAPP}" target="_blank" rel="noopener noreferrer">{G.ico("whatsapp")} Mandar no grupo</a>
+            <a class="botao botao--mini botao--vermelho" href="{G.INSTAGRAM_DM}" target="_blank" rel="noopener noreferrer">{G.ico("instagram")} Chamar no direct</a>
             <a class="botao botao--mini botao--claro" href="{G.DRIVE_PASTA}" target="_blank" rel="noopener noreferrer">Ver a pasta completa</a>
           </div>
         </div>

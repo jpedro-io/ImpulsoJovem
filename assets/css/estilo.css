@@ -527,6 +527,10 @@ a.bandeira:hover .bandeira__acao{color:var(--tinta);border-color:var(--tinta)}
 .mt-4{margin-top:var(--e4)}.mt-5{margin-top:var(--e5)}.mt-6{margin-top:var(--e6)}
 .mb-0{margin-bottom:0}.mb-2{margin-bottom:var(--e2)}.mb-4{margin-bottom:var(--e4)}
 .largura-texto{max-width:66ch}
+@media (min-width:861px){
+  /* no participe o formulário é comprido: a coluna de explicação acompanha */
+  .aside--fixo{position:sticky;top:96px;align-self:start}
+}
 .grade-texto-foto{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:var(--e5);align-items:start}
 .acoes{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
 .separador{height:1px;background:var(--linha);border:0;margin:var(--e5) 0}

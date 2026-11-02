@@ -15,8 +15,26 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 
 # ------------------------------------------------------------------ links
 INSTAGRAM = "https://www.instagram.com/impulsojovem.33"
-WHATSAPP = "https://chat.whatsapp.com/G4XrxaoL39H0QVfYUz4bkx"
+# abre a conversa no direct (o perfil recebe, e os admins passam o link do grupo)
+INSTAGRAM_DM = "https://ig.me/m/impulsojovem.33"
 DRIVE_PASTA = "https://drive.google.com/drive/folders/1hWb0P8qGGx9j6iSROzkyZiyYZ96MR_N7?usp=drive_link"
+# ---------------------------------------------- formulário → e-mail
+# Para onde vai cada resposta do formulário do site.
+# EMAIL_FORM_1 é o destino principal; os outros dois entram como cópia (CC).
+# Deixe vazio o que ainda não existe — o código só manda o que estiver preenchido.
+EMAIL_FORM_1 = "joaopedrocampos452@gmail.com"
+EMAIL_FORM_2 = ""   # ← segundo e-mail (opcional)
+EMAIL_FORM_3 = ""   # ← terceiro e-mail (opcional)
+
+
+def emails_cc():
+    """Monta a lista de cópias do formulário com os e-mails preenchidos."""
+    return ",".join(e.strip() for e in (EMAIL_FORM_2, EMAIL_FORM_3) if e.strip())
+
+
+FORM_ACTION = f"https://formsubmit.co/{EMAIL_FORM_1}"
+FORM_AJAX = f"https://formsubmit.co/ajax/{EMAIL_FORM_1}"
+
 PIX_CHAVE = "33 98415-8262"
 PIX_NOME = "Mateus de Sousa Costa"
 PIX_BANCO = "Mercado Pago"
@@ -54,7 +72,7 @@ NAV = [
     ("bandeiras.html", "Bandeiras"),
     ("formacao.html", "Formação"),
     ("biblioteca.html", "Biblioteca"),
-    ("participe.html", "Participe"),
+    ("participe.html", "Contato"),
     ("apoie.html", "Apoie"),
 ]
 
@@ -93,7 +111,6 @@ def rodape():
         ("o-impulso.html", "Núcleos"),
         ("participe.html", "Contato"),
         ("codigo-de-conduta.html", "Código de conduta"),
-        (WHATSAPP, "Grupo no WhatsApp"),
     ])
     return f"""<footer class="rodape">
   <div class="envelope">
@@ -302,7 +319,7 @@ def pagina_home():
         a sua escola ou a sua cidade, é aqui que começa. A gente responde em até 48 horas.</p>
       </div>
       <div class="acoes">
-        <a class="botao botao--vermelho" href="participe.html">Quero participar</a>
+        <a class="botao botao--vermelho" href="participe.html">Falar com a gente</a>
         <a class="botao botao--claro" href="{INSTAGRAM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} Instagram</a>
       </div>
     </div>
@@ -354,8 +371,8 @@ def pagina_impulso():
       <h2 class="mt-6">Como nos organizamos</h2>
       <p class="largura-texto">Núcleos por cidade — Divisa Alegre e Águas Vermelhas — e três frentes de
       trabalho: <strong>formação</strong>, <strong>mobilização de redes sociais</strong> e
-      <strong>militância</strong>. Um grupo único no WhatsApp, com gente das duas cidades, onde tudo
-      é combinado à vista de todo mundo.</p>
+      <strong>militância</strong>. Cada núcleo se reúne na sua cidade e o que é decidido fica
+      registrado, à vista de todo mundo.</p>
 
       <div class="tempo">
         <div>
@@ -373,8 +390,8 @@ def pagina_impulso():
       </div>
 
       <div class="acoes mt-6">
-        <a class="botao botao--vermelho" href="participe.html">Quero fazer parte</a>
-        <a class="botao" href="{WHATSAPP}" target="_blank" rel="noopener noreferrer">{ico("whatsapp")} Entrar no grupo</a>
+        <a class="botao botao--vermelho" href="participe.html">Falar com a gente</a>
+        <a class="botao" href="{INSTAGRAM_DM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} Chamar no direct</a>
       </div>
     </div>
   </section>
@@ -438,7 +455,7 @@ def pagina_bandeiras():
         As notas saem primeiro no Instagram do movimento.</p>
         <div class="acoes mt-3">
           <a class="botao botao--mini botao--desk" href="{INSTAGRAM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} Siga-nos no Instagram</a>
-          <a class="botao botao--mini" href="{WHATSAPP}" target="_blank" rel="noopener noreferrer">{ico("whatsapp")} Grupo do movimento</a>
+          <a class="botao botao--mini" href="{INSTAGRAM_DM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} Chamar no direct</a>
         </div>
       </div>
     </div>
@@ -630,10 +647,10 @@ def pagina_biblioteca():
         </div>
         <div class="caixa caixa--preta">
           <p class="olho olho--vermelho">Tem um livro pra indicar?</p>
-          <p>Manda o arquivo ou o link no grupo. A gente confere a licença, publica a ficha e põe
-          seu nome como quem indicou.</p>
+          <p>Manda o arquivo ou o link no direct do Instagram. A gente confere a licença, publica a
+          ficha e põe seu nome como quem indicou.</p>
           <div class="acoes">
-            <a class="botao botao--mini botao--vermelho" href="{WHATSAPP}" target="_blank" rel="noopener noreferrer">{ico("whatsapp")} Mandar no grupo</a>
+            <a class="botao botao--mini botao--vermelho" href="{INSTAGRAM_DM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} Chamar no direct</a>
             <a class="botao botao--mini botao--claro" href="{DRIVE_PASTA}" target="_blank" rel="noopener noreferrer">Ver a pasta completa</a>
           </div>
         </div>
@@ -650,22 +667,29 @@ def pagina_biblioteca():
 
 # ------------------------------------------------------------- PARTICIpe
 def pagina_participe():
+    cc = emails_cc()
+    cc_hidden = f'<input type="hidden" name="_cc" value="{cc}">' if cc else ""
     return head(
-        "Participe — entre no movimento | Impulso Jovem",
-        "Não precisa saber discurso, precisa querer. Preencha quatro campos e a gente te chama no WhatsApp em até 48 horas. Divisa Alegre e Águas Vermelhas (MG)."
+        "Contato — fale com a gente | entre no movimento | Impulso Jovem",
+        "Fale com a gente: preencha o formulário e a resposta chega no e-mail do movimento, com retorno em até 48 horas. Para entrar no grupo, chame no direct do Instagram. Divisa Alegre e Águas Vermelhas (MG)."
     ) + cabecalho("participe.html") + f"""
 <main id="conteudo">
   <section class="secao">
     <div class="envelope grade-texto-foto">
       <div>
-        <p class="rotulo">Participe</p>
+        <p class="rotulo">Contato · fale com a gente</p>
         <h1>Não precisa saber discurso.<br>Precisa <em>querer</em>.</h1>
-        <p class="entrada">Preencha os quatro campos e a gente te chama no WhatsApp em até 48 horas.</p>
+        <p class="entrada">Escreve aqui e a gente responde em até 48 horas, no WhatsApp que você
+        deixar. Se preferir falar agora, chama no direct do Instagram — é por lá que os admins passam o
+        link do grupo.</p>
 
-        <form class="formulario" data-formulario name="participe" method="post" action="/"
-              data-netlify="true" netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="participe">
-          <p class="oculto-visual"><label>Não preencha: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <form class="formulario" data-formulario name="participe" method="post"
+              action="{FORM_ACTION}" data-endpoint="{FORM_AJAX}" novalidate>
+          <input type="hidden" name="_subject" value="Novo cadastro no site do Impulso Jovem">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          {cc_hidden}
+          <p class="oculto-visual"><label>Não preencha: <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></p>
 
           <div class="campo">
             <label class="campo__label" for="nome">Nome</label>
@@ -694,26 +718,27 @@ def pagina_participe():
             <input id="faz" name="faz" type="text" placeholder="Estudo, trabalho, os dois">
           </div>
 
-          <p class="aviso"><strong>Uso dos seus dados:</strong> guardamos nome, cidade, WhatsApp e o que
-          você faz para falar do movimento e avisar dos encontros. Não vendemos nem compartilhamos.
-          Para sair, é só pedir no próprio WhatsApp.</p>
+          <p class="aviso"><strong>Uso dos seus dados:</strong> nome, cidade, WhatsApp e o que você faz
+          são enviados por e-mail para o movimento, pelo serviço FormSubmit. Usamos só para falar do
+          movimento e avisar dos encontros: nada é vendido nem compartilhado. Para sair, é só pedir
+          no próprio WhatsApp.</p>
 
           <div class="retorno" tabindex="-1" role="status" aria-live="polite"></div>
 
           <button class="botao botao--vermelho" type="submit">
             <span class="botao__giro" aria-hidden="true"></span>
-            <span class="botao__texto">Quero participar</span>
+            <span class="botao__texto">Enviar mensagem</span>
           </button>
         </form>
       </div>
 
-      <aside>
-        <h2 class="olho">Duas portas de entrada</h2>
+      <aside class="aside--fixo">
+        <h2 class="olho">Como entrar</h2>
 
         <div class="caixa mb-4">
           <h3>Entrar no grupo</h3>
-          <p>Um grupo único no WhatsApp, com gente das duas cidades.</p>
-          <a class="acao" href="{WHATSAPP}" target="_blank" rel="noopener noreferrer">Entrar no grupo do Impulso {ico("abrir")}</a>
+          <p>O link do grupo não fica público. Chama no direct do Instagram que a gente manda.</p>
+          <a class="acao" href="{INSTAGRAM_DM}" target="_blank" rel="noopener noreferrer">Chamar no Instagram {ico("abrir")}</a>
         </div>
 
         <div class="caixa mb-4">
@@ -724,9 +749,9 @@ def pagina_participe():
         <div class="caixa caixa--preta">
           <h3>O que acontece depois</h3>
           <ol class="mb-0">
-            <li>A gente te chama no WhatsApp em até 48 horas.</li>
-            <li>Você entra no grupo do movimento.</li>
-            <li>É convidado pro próximo encontro.</li>
+            <li>Sua mensagem chega no e-mail do movimento.</li>
+            <li>A gente responde em até 48 horas, no WhatsApp que você deixou.</li>
+            <li>Se quiser o link do grupo, ele vem por aqui.</li>
           </ol>
         </div>
       </aside>
@@ -787,8 +812,8 @@ def pagina_apoie():
         </div>
       </div>
 
-      <h2 class="mt-6">Materiais pra baixar</h2>
-      <p class="largura-texto">Peça de divulgação do movimento. Baixa, imprime, cola no muro.</p>
+      <h2 class="mt-6">Materiais e redes do movimento</h2>
+      <p class="largura-texto">Baixa o material, imprime, cola no muro — e acompanha a gente onde a coisa acontece.</p>
       <div class="tres-colunas mt-4">
         <div class="caixa">
           <img src="assets/img/wordmark.png" alt="Wordmark IMPULSO em vermelho" width="240" height="89" loading="lazy">
@@ -797,14 +822,14 @@ def pagina_apoie():
           <a class="botao botao--mini" href="assets/img/punho.png" download>Baixar o punho</a>
         </div>
         <div class="caixa">
-          <h3>Cartaz e lambe-lambe</h3>
-          <p class="fina">A arte do ato, pronta pra A3 e pra colar na parede.</p>
-          <a class="botao botao--mini" href="assets/img/cartaz-covid.jpg" download>Baixar o cartaz</a>
+          <h3>Segue no Instagram</h3>
+          <p class="fina">É onde o movimento aparece primeiro: ato, pauta, bastidor e o que rola na região.</p>
+          <a class="botao botao--mini botao--vermelho" href="{INSTAGRAM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} @impulsojovem.33</a>
         </div>
         <div class="caixa caixa--preta">
           <h3>Sem dinheiro?</h3>
-          <p>Manda habilidade, espaço ou material. A gente chama no WhatsApp e combina o que serve.</p>
-          <a class="botao botao--mini botao--claro" href="{WHATSAPP}" target="_blank" rel="noopener noreferrer">{ico("whatsapp")} Falar com a gente</a>
+          <p>Manda habilidade, espaço ou material. Chama no direct do Instagram que a gente combina o que serve.</p>
+          <a class="botao botao--mini botao--claro" href="{INSTAGRAM_DM}" target="_blank" rel="noopener noreferrer">{ico("instagram")} Chamar no direct</a>
         </div>
       </div>
     </div>
@@ -864,7 +889,7 @@ def pagina_conduta():
           trabalhadores de Divisa Alegre e Águas Vermelhas que defendiam as mesmas pautas. Um movimento
           assim só se sustenta se a mesma régua valer pra dentro e pra fora: o lugar que cobra o mundo
           é o lugar onde ninguém pode ser tratado como sobra.</p>
-          <p>Vale nas reuniões, nos atos, no grupo do WhatsApp, nas redes e em qualquer lugar onde
+          <p>Vale nas reuniões, nos atos, nos espaços do movimento, nas redes e em qualquer lugar onde
           alguém esteja representando o Impulso — pra quem chega agora e pra coordenação.</p>
         </div>
         <div>
@@ -980,7 +1005,7 @@ def pagina_verbete():
 
         <hr class="separador">
         <div class="acoes">
-          <a class="botao botao--vermelho" href="participe.html">Quero participar</a>
+          <a class="botao botao--vermelho" href="participe.html">Falar com a gente</a>
           <a class="botao" href="formacao.html">Voltar pras trilhas</a>
         </div>
       </div>

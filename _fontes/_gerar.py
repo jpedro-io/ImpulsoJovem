@@ -86,14 +86,14 @@ def cabecalho(ativo):
     return f"""<header class="topo" data-menu="fechado">
   <div class="envelope topo__interno">
     <a class="marca" href="index.html">
-      <img src="assets/img/punho.png" alt="" width="20" height="34">
+      <img src="assets/img/punho-creme.png" alt="" width="20" height="34">
       <span>IMPULSO</span>
     </a>
     <nav class="topo__nav" id="menu-principal" aria-label="Menu principal">
       {''.join(itens)}
     </nav>
     <div class="topo__acoes">
-      <a class="botao botao--mini botao--desk" href="{INSTAGRAM}" target="_blank" rel="noopener noreferrer">
+      <a class="botao botao--mini botao--desk botao--claro" href="{INSTAGRAM}" target="_blank" rel="noopener noreferrer">
         {ico("instagram")} Instagram
       </a>
       <a class="botao botao--mini botao--vermelho" href="participe.html">Entrar</a>
@@ -201,7 +201,7 @@ def bandeiras_resumo():
          "Antirracismo, fim da misoginia e da LGBTfobia, contra a violência de Estado. Onde houver caso na região, o Impulso se manifesta, acompanha e cobra.",
          "bandeiras.html#vida"),
     ]
-    cores = ["vermelho", "tinta", "ocre"]
+    cores = ["vermelho", "tinta", "laranja"]
     saida = []
     for i, (num, titulo, texto, link) in enumerate(itens):
         saida.append(f"""<a class="cartao-bandeira cartao-bandeira--{cores[i]}" href="{link}">
@@ -251,7 +251,7 @@ def pagina_home():
     <p>143 livros na Biblioteca</p>
   </div>
 
-  <section class="secao">
+  <section class="secao secao--preta">
     <div class="envelope">
       <div class="grade-fotos" data-revelar>
         {fotos}
@@ -806,7 +806,7 @@ def pagina_apoie():
             <p class="pix__dados">Chave telefone · {PIX_NOME} · {PIX_BANCO}</p>
             <p class="pix__dados">Cai no caixa das duas cidades. A prestação de contas fica publicada nesta página.</p>
             <div class="acoes mt-3">
-              <button class="botao botao--vermelho" type="button" data-copiar="+5533984158262">{ico("copiar")} Copiar a chave Pix</button>
+              <button class="botao botao--vermelho" type="button" data-copiar="33984158262">{ico("copiar")} Copiar a chave Pix</button>
             </div>
           </div>
         </div>

@@ -35,7 +35,7 @@
       link.addEventListener("click", fechar);
     });
     window.addEventListener("resize", function () {
-      if (window.innerWidth > 860) fechar();
+      if (window.innerWidth > 1080) fechar();
     });
   }
 
